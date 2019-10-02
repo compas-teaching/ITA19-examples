@@ -3,15 +3,25 @@ from compas.datastructures import Mesh
 from compas.rpc import Proxy
 from compas_rhino.artists import MeshArtist
 
+import rhinoscriptsyntax as rs
+
 # create a proxy for the numerical package of COMPAS
 numerical = Proxy('compas.numerical')
 
 # make a mesh from a sample OBJ file
-mesh = Mesh.from_obj(compas.get('faces.obj'))
+mesh = Mesh.from_obj(compas.get('hypar.obj'))
 
 # assign default values for loads and force densities
 mesh.update_default_vertex_attributes({'px': 0.0, 'py': 0.0, 'pz': 0.0})
 mesh.update_default_edge_attributes({'q': 1.0})
+
+q = rs.GetReal('FD in boundaries', 1.0, 0.1, 100.0)
+
+if not q:
+    q = 1.0
+
+edges = list(mesh.edges_on_boundary())
+mesh.set_edges_attribute('q', q, keys=edges)
 
 # make a map between vertex keys (dicts)
 # and vertex indices (lists, arrays)
@@ -40,7 +50,7 @@ for index, (u, v, attr) in enumerate(mesh.edges(True)):
     attr['l'] = l[index][0]
 
 # visualise
-artist = MeshArtist(mesh, layer="RPC::Mesh")
+artist = MeshArtist(mesh, layer="ForceDensityNumpy")
 artist.clear_layer()
 artist.draw_vertices()
 artist.draw_edges()

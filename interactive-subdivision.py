@@ -29,7 +29,7 @@ mesh.attributes['name'] = 'Control'
 mesh.update_default_vertex_attributes({'is_fixed': False})
 
 # make an artist for visualisation
-artist = MeshArtist(mesh, layer='SubdModeling::Control')
+artist = MeshArtist(mesh, layer='InteractiveSubdivision::Cage')
 
 # draw the control mesh
 draw()
@@ -50,6 +50,6 @@ subd.attributes['name'] = 'Mesh'
 
 # draw the result
 artist.mesh = subd
-artist.layer = 'SubdModeling::Mesh'
+artist.layer = 'InteractiveSubdivision::Mesh'
 artist.clear_layer()
 artist.draw_mesh()
