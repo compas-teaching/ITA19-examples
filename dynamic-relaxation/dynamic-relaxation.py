@@ -10,7 +10,7 @@ from compas_plotters import NetworkPlotter
 
 
 HERE = os.path.dirname(__file__)
-FILE = os.path.join(HERE, '02_dynamicrelaxation_live.obj')
+FILE = os.path.join(HERE, 'dynamic-relaxation.obj')
 
 
 # define a callback function
